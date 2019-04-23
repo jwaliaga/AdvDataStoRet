@@ -133,9 +133,17 @@ def api_start(start):
         filter(Measurement.date>=start).\
         order_by(Measurement.date).all()
 
-    all_results = list(np.ravel(results))
+    #all_results = list(np.ravel(results))
 
-    return jsonify(all_results)
+    all_data = []
+    for Tmin,Tmax,Tavg in results:
+        data_dict = {}
+        data_dict["Tmin"] = Tmin
+        data_dict["Tmax"] = Tmax
+        data_dict["avg"] = Tavg
+        all_data.append(data_dict)
+
+    return jsonify(all_data)
 
 # /api/<start>/<end>
 # Return a JSON list of the minimum temperature, the average temperature, and the max temperature for a given start or start-end range.
@@ -164,9 +172,16 @@ def api_start_end(start,end):
         filter(Measurement.date>=start).\
         filter(Measurement.date<=end).all()
 
-    all_results = list(np.ravel(results))
+    #all_results = list(np.ravel(results))
+    all_data = []
+    for Tmin,Tmax,Tavg in results:
+        data_dict = {}
+        data_dict["Tmin"] = Tmin
+        data_dict["Tmax"] = Tmax
+        data_dict["avg"] = Tavg
+        all_data.append(data_dict)
 
-    return jsonify(all_results)
+    return jsonify(all_data)
 
 if __name__ == '__main__':
     app.run(debug=True)
